@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+  <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+    <dl>
+      <dt>Delay:
+      <dd><input type="number" size=30 name=delay>
+      <dd><input type=submit value=Share>
+    </dl>
+  </form>
+
+  <a href="{{url_for('show_entries')}}" style="text-align:center">Delay Report</a>
+
+{% endblock %}

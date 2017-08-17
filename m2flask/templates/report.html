@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<h1>REPORT</h1>
+
+{{entries | length}} CSV Downloaded
+<table class="table table-bordered" style="width:100%">
+  <tr>
+    <th>Delay</th>
+    <th>Time Stamp</th>
+    <th>Client IP</th>
+  </tr>
+  {% for entry in entries%}
+  <tr>
+    <th>{{entry.delay}}</th>
+    <th>{{entry.time}}</th>
+    <th>{{entry.client_ip}}</th>
+  </tr>
+  {% endfor%}
+</table>
+
+{% endblock %}

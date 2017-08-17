@@ -1,0 +1,3 @@
+graft m2flask/templates
+graft m2flask/static
+include m2flask/schema.sql

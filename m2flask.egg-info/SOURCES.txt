@@ -1,0 +1,16 @@
+MANIFEST.in
+m2flask/__init__.py
+m2flask/m2flask.py
+m2flask/schema.sql
+m2flask.egg-info/PKG-INFO
+m2flask.egg-info/SOURCES.txt
+m2flask.egg-info/dependency_links.txt
+m2flask.egg-info/requires.txt
+m2flask.egg-info/top_level.txt
+m2flask/static/style.css
+m2flask/templates/csv_test.html
+m2flask/templates/example.csv
+m2flask/templates/home.html
+m2flask/templates/layout.html
+m2flask/templates/login.html
+m2flask/templates/report.html
