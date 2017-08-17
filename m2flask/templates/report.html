@@ -3,18 +3,21 @@
 
 <h1>REPORT</h1>
 
-{{entries | length}} CSV Downloaded
+<h3>{{download_summary.count}} CSV Downloaded</h3>
+
 <table class="table table-bordered" style="width:100%">
   <tr>
     <th>Delay</th>
     <th>Time Stamp</th>
     <th>Client IP</th>
+    <th>User Agent</th>
   </tr>
   {% for entry in entries%}
   <tr>
     <th>{{entry.delay}}</th>
     <th>{{entry.time}}</th>
     <th>{{entry.client_ip}}</th>
+    <th>{{entry.user_agent}}</th>
   </tr>
   {% endfor%}
 </table>

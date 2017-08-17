@@ -57,14 +57,19 @@ def home():
 @app.route('/report')
 def show_entries():
     db = get_db()
-    cur = db.execute('select delay,time,client_ip,id from entries order by id desc')
+    cur = db.execute('select delay,time,client_ip,id,user_agent from entries order by id desc')
     entries = cur.fetchall()
-    return render_template('report.html', entries=entries)
+
+
+    db = get_db()
+    cur = db.execute('SELECT count FROM download_summary ORDER BY id DESC')
+    download_summary = cur.fetchall()[0]
+    return render_template('report.html', entries=entries,download_summary=download_summary)
 
 @app.route('/add', methods=['POST'])
 def add_entry():
-    if not session.get('logged_in'):
-        abort(401)
+    # if not session.get('logged_in'):
+    #     abort(401)
     db = get_db()
 
     time_delay = int(request.form['delay'])
@@ -75,8 +80,11 @@ def add_entry():
 
     client_ip = request.remote_addr
 
-    db.execute('insert into entries (delay,time,client_ip) values (?,?,?)',
-                 [request.form['delay'],timestamp,client_ip])
+    user_agent = request.headers.get('User-Agent')
+
+
+    db.execute('insert into entries (delay,time,client_ip,user_agent) values (?,?,?,?)',
+                 [request.form['delay'],timestamp,client_ip,user_agent])
     db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('csv_test'))
@@ -90,8 +98,16 @@ def csv_test():
 @app.route('/csv')
 def download_csv():
 
-    with open("templates/example.csv") as fp:
+    db = get_db()
+    cur = db.execute('SELECT file_name FROM download_summary ORDER BY id DESC')
+    download_summary = cur.fetchall()[0]
+
+    with open(download_summary['file_name']) as fp:
         csv = fp.read()
+
+
+    db.execute("UPDATE download_summary SET count = count + 1 WHERE id = 1")
+    db.commit()
 
     response = make_response(csv)
     cd = 'attachment; filename=mycsv.csv'
